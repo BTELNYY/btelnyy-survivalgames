@@ -1,8 +1,10 @@
 package me.btelnyy.survivalgames.listener;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.btelnyy.survivalgames.misc.CombatLoggerData;
 import me.btelnyy.survivalgames.service.GameManager;
 import me.btelnyy.survivalgames.service.Utils;
+import me.btelnyy.survivalgames.service.file_manager.FileID;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
@@ -11,17 +13,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import me.btelnyy.survivalgames.SurvivalGames;
 import me.btelnyy.survivalgames.constants.ConfigData;
 import me.btelnyy.survivalgames.service.file_manager.Configuration;
-import me.btelnyy.survivalgames.service.file_manager.FileID;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -31,9 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class EventListener implements Listener
@@ -112,7 +108,7 @@ public class EventListener implements Listener
     }
 
     @EventHandler
-    public void onChat(PlayerChatEvent event)
+    public void onChat(AsyncChatEvent event)
     {
         if(GameManager.hasGameStarted && !ConfigData.getInstance().allowChatInMatch && !(event.getPlayer().hasPermission("btelnyy.survivalgames.chatingame") || event.getPlayer().isOp()))
         {

@@ -1,4 +1,4 @@
-﻿package me.btelnyy.survivalgames.service;
+package me.btelnyy.survivalgames.service;
 
 import me.btelnyy.survivalgames.SurvivalGames;
 import me.btelnyy.survivalgames.constants.ConfigData;
@@ -59,7 +59,7 @@ public class GameManager
         {
             return GameState.Peace;
         }
-        if(gameSeconds >= ConfigData.getInstance().borderShrinkTime)
+        if(gameSeconds >= ConfigData.getInstance().borderShrinkTime + ConfigData.getInstance().peaceTimeSeconds)
         {
             return GameState.SuddenDeath;
         }
@@ -113,7 +113,7 @@ public class GameManager
 
     public static void onTriggerSuddenDeath()
     {
-
+        
     }
 
     public static void onTriggerPvp()
@@ -150,9 +150,9 @@ public class GameManager
             }
             player.teleport(world.getSpawnLocation());
             player.getInventory().addItem(new ItemStack(Material.OAK_BOAT, 1));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300, 2, false));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 300, 1, false));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 30, 255, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, ConfigData.getInstance().spawnEffectDuration * 20, 2, false, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, ConfigData.getInstance().spawnEffectDuration * 20, 0, false, false ));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 60 * 20, 255, false, false));
         }
         Bukkit.getServer().setWhitelist(true);
         hasGameStarted = true;

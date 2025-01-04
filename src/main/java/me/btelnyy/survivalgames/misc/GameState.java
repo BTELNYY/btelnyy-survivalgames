@@ -1,4 +1,4 @@
-﻿package me.btelnyy.survivalgames.misc;
+package me.btelnyy.survivalgames.misc;
 
 public enum GameState
 {

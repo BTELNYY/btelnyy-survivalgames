@@ -10,7 +10,7 @@ public class ConfigData
 
     public int borderShrinkTime = 1800;
 
-    public int borderMinimumSize = 1;
+    public int borderMinimumSize = 15;
 
     public boolean showTimer = true;
 
@@ -26,6 +26,8 @@ public class ConfigData
 
     public String worldName = "world";
 
+    public int spawnEffectDuration = 300;
+
     public void load(Configuration config) {
         peaceTimeSeconds = config.getInt("peace_time", peaceTimeSeconds);
         borderShrinkTime = config.getInt("border_shrink_time", borderShrinkTime);
@@ -37,6 +39,7 @@ public class ConfigData
         combatLoggerDamageMultiplierPlayer = config.getDouble("combat_logger_damage_multiplier_player", combatLoggerDamageMultiplierPlayer);
         combatLoggerDamageTrackTime = config.getInt("combat_logger_damage_track_time", combatLoggerDamageTrackTime);
         worldName = config.getString("world_name", worldName);
+        spawnEffectDuration = config.getInt("spawn_effect_duration", spawnEffectDuration);
         instance = this;
     }
 
