@@ -1,0 +1,11 @@
+#time in seconds for the peace or resource gather phase
+peace_time: 1800
+
+#time for the battle phase of the game to last
+border_shrink_time: 1800
+
+#How small should the border be?
+border_minimum_size: 1
+
+#Show phase timer?
+show_timer: true

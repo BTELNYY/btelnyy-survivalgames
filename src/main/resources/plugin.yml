@@ -1,0 +1,9 @@
+name: btelnyy-survivalgames
+main: me.btelnyy.survivalgames.SurvivalGames
+version: ${project.version}
+api-version: 1.21
+commands:
+  startgame:
+    description: Start the game
+    permission: btelnyy.survivalgames.startgame
+    usage: /startgame
