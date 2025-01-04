@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import me.btelnyy.survivalgames.service.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -45,7 +46,7 @@ public class StartGame implements CommandExecutor
             sender.sendMessage(Utils.colored("&cError: &7You must be a player to run this command."));
             return true;
         }
-        if(Globals.hasGameStarted)
+        if(GameManager.hasGameStarted)
         {
             sender.sendMessage(Utils.colored("&cError: &7The game has already started."));
             return true;
@@ -58,7 +59,7 @@ public class StartGame implements CommandExecutor
 
             }
         }, 0, 20);
-        Globals.hasGameStarted = true;
+        GameManager.startGame();
         return true;
     }
 }

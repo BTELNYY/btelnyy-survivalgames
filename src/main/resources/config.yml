@@ -7,5 +7,11 @@ border_shrink_time: 1800
 #How small should the border be?
 border_minimum_size: 1
 
+#Border start size
+border_start_size: 6000
+
 #Show phase timer?
 show_timer: true
+
+#Allow chatting mid-game?
+allow_chat_in_match: false

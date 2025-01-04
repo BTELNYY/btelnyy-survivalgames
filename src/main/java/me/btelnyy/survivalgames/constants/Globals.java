@@ -6,5 +6,5 @@ import java.util.Hashtable;
 import org.bukkit.entity.Player;
 
 public class Globals {
-    public static Boolean hasGameStarted = false;
+
 }
