@@ -3,6 +3,10 @@ package me.btelnyy.survivalgames.service;
 import java.util.Arrays;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.TNTPrimed;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class Utils {
     /*
@@ -16,6 +20,23 @@ public class Utils {
 
     public static String colored(String str) {
         return coloured(str);
+    }
+
+    public static Player tryGetAttacker(EntityDamageByEntityEvent event)
+    {
+        if(event.getDamager() instanceof Player attacker)
+        {
+            return attacker;
+        }
+        if(event.getDamager() instanceof Projectile proj && proj.getShooter() instanceof Player shooter)
+        {
+            return shooter;
+        }
+        if(event.getDamager() instanceof TNTPrimed tnt && tnt.getSource() instanceof Player igniter)
+        {
+            return igniter;
+        }
+        return null;
     }
 
     public static String buildMessage(String[] parts, boolean ignorefirst) {

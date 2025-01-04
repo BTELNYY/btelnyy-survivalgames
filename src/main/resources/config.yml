@@ -15,3 +15,15 @@ show_timer: true
 
 #Allow chatting mid-game?
 allow_chat_in_match: false
+
+#Multiply damage dealt to combat loggers (Environment damage)
+combat_logger_damage_multiplier_environment: 1.5
+
+#Multiply damage dealt to combat loggers (Player damage)
+combat_logger_damage_multiplier_player: 10.0
+
+#How long should the combat logger track logouts? (Seconds)
+combat_logger_damage_track_time: 10
+
+#World Name, do not change unless your world is not called this
+world_name: "world"

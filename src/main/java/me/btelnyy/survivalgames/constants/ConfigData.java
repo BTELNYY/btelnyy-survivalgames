@@ -18,6 +18,14 @@ public class ConfigData
 
     public boolean allowChatInMatch = false;
 
+    public double combatLoggerDamageMultiplierEnvironment = 1.5f;
+
+    public double combatLoggerDamageMultiplierPlayer = 10f;
+
+    public int combatLoggerDamageTrackTime = 10;
+
+    public String worldName = "world";
+
     public void load(Configuration config) {
         peaceTimeSeconds = config.getInt("peace_time", peaceTimeSeconds);
         borderShrinkTime = config.getInt("border_shrink_time", borderShrinkTime);
@@ -25,6 +33,10 @@ public class ConfigData
         showTimer = config.getBoolean("show_timer", showTimer);
         borderStartSize = config.getInt("border_start_size", borderStartSize);
         allowChatInMatch = config.getBoolean("allow_chat_in_match", allowChatInMatch);
+        combatLoggerDamageMultiplierEnvironment = config.getDouble("combat_logger_damage_multiplier_environment", combatLoggerDamageMultiplierEnvironment);
+        combatLoggerDamageMultiplierPlayer = config.getDouble("combat_logger_damage_multiplier_player", combatLoggerDamageMultiplierPlayer);
+        combatLoggerDamageTrackTime = config.getInt("combat_logger_damage_track_time", combatLoggerDamageTrackTime);
+        worldName = config.getString("world_name", worldName);
         instance = this;
     }
 
