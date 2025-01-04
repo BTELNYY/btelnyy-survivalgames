@@ -1,6 +1,7 @@
 package me.btelnyy.survivalgames.listener;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import io.papermc.paper.event.player.ChatEvent;
 import me.btelnyy.survivalgames.misc.CombatLoggerData;
 import me.btelnyy.survivalgames.service.GameManager;
 import me.btelnyy.survivalgames.service.Utils;
@@ -20,6 +21,7 @@ import me.btelnyy.survivalgames.SurvivalGames;
 import me.btelnyy.survivalgames.constants.ConfigData;
 import me.btelnyy.survivalgames.service.file_manager.Configuration;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -29,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
 import java.time.Duration;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -108,20 +111,37 @@ public class EventListener implements Listener
     }
 
     @EventHandler
-    public void onChat(AsyncChatEvent event)
+    public void onChat(PlayerChatEvent event)
     {
-        if(GameManager.hasGameStarted && !ConfigData.getInstance().allowChatInMatch && !(event.getPlayer().hasPermission("btelnyy.survivalgames.chatingame") || event.getPlayer().isOp()))
+        if(GameManager.hasGameStarted && !ConfigData.getInstance().allowChatInMatch && !(event.getPlayer().hasPermission("btelnyy.survivalgames.chatingame") || event.getPlayer().isOp()) && event.getPlayer().getGameMode() == GameMode.SPECTATOR)
         {
             event.setCancelled(true);
             event.getPlayer().sendMessage(Utils.colored(language.getString("chat_disabled")));
+            return;
         }
+        if(!GameManager.hasGameStarted)
+        {
+            return;
+        }
+        Player sender = event.getPlayer();
+        Collection<Player> whoGotIt = sender.getLocation().getNearbyPlayers(ConfigData.getInstance().chatRadius);
+        event.getRecipients().clear();
+        event.getRecipients().addAll(whoGotIt);
     }
 
     public static HashMap<UUID, Location> playerDeathPositions = new HashMap<>();
 
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event)
+    public void onPlayerDeath(EntityDamageEvent event)
     {
+        if(!(event.getEntity() instanceof Player player))
+        {
+            return;
+        }
+        if(event.getFinalDamage() < player.getHealth())
+        {
+            return;
+        }
         playerDeathPositions.remove(event.getEntity().getUniqueId());
         playerDeathPositions.put(event.getEntity().getUniqueId(), event.getEntity().getLocation());
         if(GameManager.hasGameStarted && Bukkit.getOnlinePlayers().stream().filter(x -> x.getGameMode() == GameMode.SURVIVAL).count() == 1)

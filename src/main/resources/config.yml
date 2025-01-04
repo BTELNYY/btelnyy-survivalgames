@@ -30,3 +30,6 @@ world_name: "world"
 
 #How long should spawn effects last?
 spawn_effect_duration: 300
+
+#Text chat proximity radius
+chat_radius: 60.0

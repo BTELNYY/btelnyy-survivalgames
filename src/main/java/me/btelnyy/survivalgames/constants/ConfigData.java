@@ -28,6 +28,8 @@ public class ConfigData
 
     public int spawnEffectDuration = 300;
 
+    public double chatRadius = 60d;
+
     public void load(Configuration config) {
         peaceTimeSeconds = config.getInt("peace_time", peaceTimeSeconds);
         borderShrinkTime = config.getInt("border_shrink_time", borderShrinkTime);
@@ -40,6 +42,7 @@ public class ConfigData
         combatLoggerDamageTrackTime = config.getInt("combat_logger_damage_track_time", combatLoggerDamageTrackTime);
         worldName = config.getString("world_name", worldName);
         spawnEffectDuration = config.getInt("spawn_effect_duration", spawnEffectDuration);
+        chatRadius = config.getDouble("chat_radius", chatRadius);
         instance = this;
     }
 

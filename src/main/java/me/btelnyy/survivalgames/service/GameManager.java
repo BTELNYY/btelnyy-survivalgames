@@ -86,12 +86,14 @@ public class GameManager
                 {
                     component = "Time until Sudden Death: ";
                     currentColor = TextColor.color(255, 204, 0);
+                    onTriggerPvpLoop();
                 }
                 if(getGameState() == GameState.SuddenDeath)
                 {
                     component = "Sudden Death! Playing for: ";
                     currentColor = TextColor.color(255, 0, 0);
                     timeLeftText = text;
+                    onTriggerSuddenDeathLoop();
                 }
                 for(Player p : Bukkit.getOnlinePlayers())
                 {
@@ -111,9 +113,42 @@ public class GameManager
         }
     };
 
+    public static void onTriggerSuddenDeathLoop()
+    {
+        for(Player player : Bukkit.getOnlinePlayers())
+        {
+            if(player.getGameMode() != GameMode.SURVIVAL)
+            {
+                continue;
+            }
+            player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 0, false, false));
+        }
+    }
+
     public static void onTriggerSuddenDeath()
     {
-        
+        for(Player player : Bukkit.getOnlinePlayers())
+        {
+            if(player.getGameMode() != GameMode.SURVIVAL)
+            {
+                continue;
+            }
+            player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 0, false, false));
+            if(player.getLocation().getWorld().getEnvironment() == World.Environment.NETHER)
+            {
+                World world = Bukkit.getWorld(ConfigData.getInstance().worldName);
+                if(world == null)
+                {
+                    world = Bukkit.getWorlds().get(0);
+                }
+                player.teleport(world.getSpawnLocation());
+            }
+        }
+    }
+
+    public static void onTriggerPvpLoop()
+    {
+
     }
 
     public static void onTriggerPvp()
@@ -124,8 +159,7 @@ public class GameManager
         }
         for(World world : Bukkit.getWorlds())
         {
-            world.getWorldBorder().setSize(ConfigData.getInstance().borderStartSize, 0);
-            world.getWorldBorder().setCenter(0, 0);
+            world.getWorldBorder().setSize(ConfigData.getInstance().borderMinimumSize, ConfigData.getInstance().borderShrinkTime);
         }
     }
 
@@ -134,7 +168,8 @@ public class GameManager
         gameTimerProcessId = Bukkit.getScheduler().runTaskTimer(SurvivalGames.getInstance(), gameTimer, 0, 20).getTaskId();
         for(World world : Bukkit.getWorlds())
         {
-            world.getWorldBorder().setSize(ConfigData.getInstance().borderMinimumSize, ConfigData.getInstance().borderShrinkTime);
+            world.getWorldBorder().setSize(ConfigData.getInstance().borderStartSize, 0);
+            world.getWorldBorder().setCenter(0, 0);
         }
         World world = Bukkit.getWorld(ConfigData.getInstance().worldName);
         if(world == null)
@@ -154,6 +189,7 @@ public class GameManager
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, ConfigData.getInstance().spawnEffectDuration * 20, 0, false, false ));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 60 * 20, 255, false, false));
         }
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute in minecraft:overworld run spreadplayers {spawnX} {spawnZ} {midPoint} {maxPoint} false @a".replace("{spawnX}", String.valueOf(world.getSpawnLocation().getX())).replace("{spawnZ}", String.valueOf(world.getSpawnLocation().getZ())).replace("{midPoint}", String.valueOf((ConfigData.getInstance().borderStartSize / 4))).replace("{maxPoint}",String.valueOf(ConfigData.getInstance().borderStartSize / 2)));
         Bukkit.getServer().setWhitelist(true);
         hasGameStarted = true;
     }
