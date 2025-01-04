@@ -32,6 +32,7 @@ public class SurvivalGames extends JavaPlugin {
         fileManager = new FileManager(this);
         fileManager.addFile(FileID.LANGUAGE, fileManager.create(null, "language.yml"));
 
+
         // Load config
         saveDefaultConfig();
         {

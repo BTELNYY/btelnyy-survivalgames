@@ -10,6 +10,13 @@ border_minimum_size: 15
 #Border start size
 border_start_size: 6000
 
+#The border size vertically during sudden death
+vertical_border_minimum: 32
+vertical_border_maximum: 128
+
+#How many blocks per second should the vertical border shrink by?
+vertical_border_shrink_step: 1
+
 #Show phase timer?
 show_timer: true
 

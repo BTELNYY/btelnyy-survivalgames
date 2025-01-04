@@ -111,7 +111,7 @@ public class EventListener implements Listener
     }
 
     @EventHandler
-    public void onChat(PlayerChatEvent event)
+    public void onChat(ChatEvent event)
     {
         if(GameManager.hasGameStarted && !ConfigData.getInstance().allowChatInMatch && !(event.getPlayer().hasPermission("btelnyy.survivalgames.chatingame") || event.getPlayer().isOp()) && event.getPlayer().getGameMode() == GameMode.SPECTATOR)
         {
@@ -125,8 +125,6 @@ public class EventListener implements Listener
         }
         Player sender = event.getPlayer();
         Collection<Player> whoGotIt = sender.getLocation().getNearbyPlayers(ConfigData.getInstance().chatRadius);
-        event.getRecipients().clear();
-        event.getRecipients().addAll(whoGotIt);
     }
 
     public static HashMap<UUID, Location> playerDeathPositions = new HashMap<>();
@@ -153,10 +151,14 @@ public class EventListener implements Listener
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event)
     {
+        if(!GameManager.hasGameStarted)
+        {
+            return;
+        }
         event.getPlayer().setGameMode(GameMode.SPECTATOR);
         Location destination = playerDeathPositions.get(event.getPlayer().getUniqueId());
         destination = destination == null ? event.getPlayer().getLocation() : destination;
-        event.getPlayer().teleport(event.getRespawnLocation());
+        event.getPlayer().teleport(destination);
         event.getPlayer().showTitle(new Title()
         {
             @Override

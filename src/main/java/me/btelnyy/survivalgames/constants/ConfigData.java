@@ -30,6 +30,12 @@ public class ConfigData
 
     public double chatRadius = 60d;
 
+    public int verticalBorderMinimum = 64;
+
+    public int verticalBorderMaximum = 128;
+
+    public int verticalBorderShrinkStep = 3;
+
     public void load(Configuration config) {
         peaceTimeSeconds = config.getInt("peace_time", peaceTimeSeconds);
         borderShrinkTime = config.getInt("border_shrink_time", borderShrinkTime);
@@ -43,6 +49,9 @@ public class ConfigData
         worldName = config.getString("world_name", worldName);
         spawnEffectDuration = config.getInt("spawn_effect_duration", spawnEffectDuration);
         chatRadius = config.getDouble("chat_radius", chatRadius);
+        verticalBorderMinimum = config.getInt("vertical_border_minimum", verticalBorderMinimum);
+        verticalBorderMaximum = config.getInt("vertical_border_maximum", verticalBorderMaximum);
+        verticalBorderShrinkStep = config.getInt("vertical_border_shrink_step", verticalBorderShrinkStep);
         instance = this;
     }
 

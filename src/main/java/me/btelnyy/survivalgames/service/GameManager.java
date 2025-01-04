@@ -49,6 +49,10 @@ public class GameManager
 
     public static List<UUID> players = new ArrayList<>();
 
+    public static int currentVerticalBorderMaximum = 320;
+
+    public static int currentVerticalBorderMinimum = -64;
+
     public static GameState getGameState()
     {
         if(!hasGameStarted)
@@ -115,13 +119,31 @@ public class GameManager
 
     public static void onTriggerSuddenDeathLoop()
     {
+        currentVerticalBorderMaximum = Math.max(currentVerticalBorderMaximum - ConfigData.getInstance().verticalBorderShrinkStep, ConfigData.getInstance().verticalBorderMaximum);
+        currentVerticalBorderMinimum = Math.min(currentVerticalBorderMinimum + ConfigData.getInstance().verticalBorderShrinkStep, ConfigData.getInstance().verticalBorderMinimum);
         for(Player player : Bukkit.getOnlinePlayers())
         {
-            if(player.getGameMode() != GameMode.SURVIVAL)
+            if (player.getGameMode() != GameMode.SURVIVAL)
             {
                 continue;
             }
             player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 0, false, false));
+            if(player.getLocation().getBlockY() > currentVerticalBorderMaximum)
+            {
+                player.sendMessage(Utils.colored(language.getString("too_high_message")));
+                player.setFreezeTicks(120);
+            }
+            else if(player.getLocation().getBlockY() < currentVerticalBorderMinimum)
+            {
+                player.sendMessage(Utils.colored(language.getString("too_deep_message")));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 300, 11, false, false));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 300, 0, false, false));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 300, 2, false, false));
+            }
+            else
+            {
+                continue;
+            }
         }
     }
 
@@ -129,12 +151,12 @@ public class GameManager
     {
         for(Player player : Bukkit.getOnlinePlayers())
         {
-            if(player.getGameMode() != GameMode.SURVIVAL)
+            if (player.getGameMode() != GameMode.SURVIVAL)
             {
                 continue;
             }
             player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 0, false, false));
-            if(player.getLocation().getWorld().getEnvironment() == World.Environment.NETHER)
+            if (player.getLocation().getWorld().getEnvironment() == World.Environment.NETHER)
             {
                 World world = Bukkit.getWorld(ConfigData.getInstance().worldName);
                 if(world == null)

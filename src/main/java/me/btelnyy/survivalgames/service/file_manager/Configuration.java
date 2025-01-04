@@ -2,11 +2,13 @@ package me.btelnyy.survivalgames.service.file_manager;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import me.btelnyy.survivalgames.SurvivalGames;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -115,6 +117,7 @@ public class Configuration {
         config.set(path, o);
         return this;
     }
+
     public ConfigurationSection self() {
         return config;
     }
