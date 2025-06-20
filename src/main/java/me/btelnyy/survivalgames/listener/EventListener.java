@@ -130,22 +130,10 @@ public class EventListener implements Listener
     public static HashMap<UUID, Location> playerDeathPositions = new HashMap<>();
 
     @EventHandler
-    public void onPlayerDeath(EntityDamageEvent event)
+    public void onPlayerDeath(PlayerDeathEvent event)
     {
-        if(!(event.getEntity() instanceof Player player))
-        {
-            return;
-        }
-        if(event.getFinalDamage() < player.getHealth())
-        {
-            return;
-        }
         playerDeathPositions.remove(event.getEntity().getUniqueId());
         playerDeathPositions.put(event.getEntity().getUniqueId(), event.getEntity().getLocation());
-        if(GameManager.hasGameStarted && Bukkit.getOnlinePlayers().stream().filter(x -> x.getGameMode() == GameMode.SURVIVAL).count() == 1)
-        {
-            GameManager.winGame();
-        }
     }
 
     @EventHandler
@@ -185,6 +173,10 @@ public class EventListener implements Listener
                 return null;
             }
         });
+        if(GameManager.hasGameStarted && Bukkit.getOnlinePlayers().stream().filter(x -> x.getGameMode() == GameMode.SURVIVAL).count() == 1)
+        {
+            GameManager.winGame();
+        }
     }
 
     @EventHandler
